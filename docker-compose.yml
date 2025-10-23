@@ -1,0 +1,9 @@
+services:
+  alunos-app:
+    build: .
+    container_name: cinema-container
+    ports:
+      - "100:100"  # Porta do host -> porta do container
+    volumes:
+      - .:/usr/share/nginx/html:cached  # live reload: atualiza arquivos automaticamente
+    restart: unless-stopped
