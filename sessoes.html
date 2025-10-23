@@ -1,35 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sessões Disponíveis</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sessões Disponíveis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-<div class="container">
-<h2>Sessões Disponíveis</h2>
-<ul id="listaSessoes" class="list-group mt-2"></ul>
-</div>
+    <script src="js/navbar.js"></script>
 
-<script src="menu.js"></script>
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const listaSessoes = document.getElementById("listaSessoes");
-  const sessoes = JSON.parse(localStorage.getItem("sessoes") || "[]");
-  const filmes = JSON.parse(localStorage.getItem("filmes") || "[]");
-  const salas = JSON.parse(localStorage.getItem("salas") || "[]");
+    <div class="container">
+        <h2>Sessões Disponíveis</h2>
+        <ul id="listaSessoes" class="list-group mt-3"></ul>
+    </div>
 
-  sessoes.forEach((s, i) => {
-    const li = document.createElement("li");
-    li.className = "list-group-item d-flex justify-content-between align-items-center";
-    li.innerHTML = `
-      ${filmes[s.filmeIndex]?.titulo} - ${salas[s.salaIndex]?.nome} | ${s.dataHora} | R$${s.preco.toFixed(2)} | ${s.idioma} | ${s.formato}
-      <a href="venda-ingressos.html" class="btn btn-sm btn-success">Comprar Ingresso</a>
-    `;
-    listaSessoes.appendChild(li);
-  });
-});
-</script>
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const lista = document.getElementById("listaSessoes");
+        const filmes = JSON.parse(localStorage.getItem("filmes") || "[]");
+        const salas = JSON.parse(localStorage.getItem("salas") || "[]");
+        const sessoes = JSON.parse(localStorage.getItem("sessoes") || "[]");
+
+        sessoes.forEach((s, i) => {
+            const filme = filmes[s.filmeIndex];
+            const sala = salas[s.salaIndex];
+            if(!filme || !sala) return;
+
+            const li = document.createElement("li");
+            li.className = "list-group-item";
+            li.innerHTML = `<strong>${filme.titulo}</strong> - ${sala.nome} | ${s.dataHora} <a href="venda-ingressos.html?sessao=${i}" class="btn btn-sm btn-primary float-end">Comprar</a>`;
+            lista.appendChild(li);
+        });
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
